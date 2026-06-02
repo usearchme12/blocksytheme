@@ -1,6 +1,6 @@
-# World of Chat AI Instructions (.cursorrules)
+# World of Chat Antigravity Rules (.antigravityrules)
 
-These are strict guidelines that any AI coding assistant must follow when editing, generating, or refactoring code for the World of Chat project.
+These are strict guidelines that any Antigravity AI assistant must follow when editing, generating, or refactoring code for the World of Chat project.
 
 ## 1. WordPress Tab System Constraint (CRITICAL)
 * **Strict Code Separation:** The WordPress page builder interface has three separate editing tabs (HTML, CSS, JavaScript). 
