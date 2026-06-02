@@ -1,0 +1,98 @@
+/* WOC Hero Blocks - Paste into WPCode > CSS */
+#woc-hero-blocks *{box-sizing:border-box;margin:0;padding:0}
+#woc-hero-blocks{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  max-width:600px;
+  margin:32px 0 0 0;
+  font-family:'Inter',sans-serif;
+}
+.woc-block{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  background:rgba(255,255,255,0.09);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:14px;
+  padding:18px 20px;
+  text-decoration:none;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:background 0.2s,border-color 0.2s,transform 0.15s;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.woc-block::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.06) 0%,transparent 60%);
+  pointer-events:none;
+}
+.woc-block:hover{
+  background:rgba(255,255,255,0.15);
+  border-color:rgba(255,255,255,0.35);
+  transform:translateY(-2px);
+}
+.woc-block:active{transform:translateY(0)}
+.woc-icon{
+  width:44px;height:44px;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  flex-shrink:0;
+}
+.woc-icon.blue{background:rgba(59,130,246,0.2);}
+.woc-icon.yellow{background:rgba(251,191,36,0.2);}
+.woc-icon.green{background:rgba(34,197,94,0.2);}
+.woc-icon.pink{background:rgba(236,72,153,0.2);}
+.woc-title{
+  font-size:16px;
+  font-weight:700;
+  color:#ffffff;
+  line-height:1.2;
+  display:block;
+}
+.woc-sub{
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  text-transform:uppercase;
+  letter-spacing:0.6px;
+  display:block;
+  margin-top:4px;
+}
+.woc-arrow{
+  margin-left:auto;
+  color:rgba(255,255,255,0.35);
+  font-size:18px;
+  flex-shrink:0;
+  transition:transform 0.2s,color 0.2s;
+}
+.woc-block:hover .woc-arrow{
+  transform:translateX(4px);
+  color:rgba(255,255,255,0.7);
+}
+.woc-ripple{
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  transform:scale(0);
+  animation:woc-ripple-anim 0.5s linear;
+  pointer-events:none;
+}
+@keyframes woc-ripple-anim{
+  to{transform:scale(4);opacity:0}
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  #woc-hero-blocks {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .woc-block {
+    padding: 14px 16px;
+  }
+}

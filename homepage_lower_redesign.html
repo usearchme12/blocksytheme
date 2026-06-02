@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World of Chat - Lower Section Redesign</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ----------------------------------------------------
+       DESIGN SYSTEM & CSS VARIABLES
+       ---------------------------------------------------- */
+    :root {
+      --bg-dark: #07080d;
+      --card-bg: rgba(18, 20, 29, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #cbd5e1;
+      --text-bright: #ffffff;
+      --text-muted: #64748b;
+      
+      /* Neon Accents */
+      --accent-blue: hsl(217, 91%, 60%);
+      --accent-blue-glow: rgba(59, 130, 246, 0.15);
+      --accent-red: hsl(358, 85%, 52%);
+      --accent-red-glow: rgba(239, 68, 68, 0.15);
+      --accent-gold: hsl(38, 92%, 50%);
+      --accent-gold-glow: rgba(245, 158, 11, 0.15);
+      --accent-green: hsl(142, 70%, 45%);
+      --accent-purple: hsl(270, 76%, 53%);
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    .woc-section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      box-sizing: border-box;
+    }
+
+    /* Typography */
+    h2, h3, h4 {
+      font-family: 'Outfit', sans-serif;
+      color: var(--text-bright);
+      margin: 0;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 50px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-title span {
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Custom Glassmorphic Card Styling */
+    .glass-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      padding: 35px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.03) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .glass-card:focus-visible, 
+    .blog-card:focus-visible,
+    .cta-button:focus-visible,
+    .app-input:focus-visible {
+      outline: 2px solid var(--accent-blue);
+      outline-offset: 4px;
+    }
+
+    /* Welcome Hero Card specific layout */
+    .welcome-hero-card {
+      border-left: 4px solid var(--accent-blue);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(18, 20, 29, 0.65) 100%);
+    }
+
+    /* ----------------------------------------------------
+       SECTION 1: PHILOSOPHY & WHY WE ARE DIFFERENT
+       ---------------------------------------------------- */
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .phil-header {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 24px;
+    }
+
+    .phil-desc {
+      font-size: 1.1rem;
+      color: var(--text-main);
+      margin-bottom: 24px;
+    }
+
+    /* Live MSN-Style Mock App UI */
+    .chat-preview-app {
+      background: #0d0e15;
+      border: 1px solid #1f2235;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+      overflow: hidden;
+    }
+
+    .app-header {
+      background: #151824;
+      border-bottom: 1px solid #1f2235;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .app-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .online-indicator {
+      width: 10px;
+      height: 10px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-green);
+      animation: pulseGlow 2s infinite;
+    }
+
+    .app-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-bright);
+    }
+
+    .app-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .app-chat-area {
+      height: 250px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+    }
+
+    .bubble-wrapper {
+      display: flex;
+      flex-direction: column;
+      max-width: 80%;
+    }
+
+    .bubble-wrapper.received {
+      align-self: flex-start;
+    }
+
+    .bubble-wrapper.sent {
+      align-self: flex-end;
+    }
+
+    .bubble-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      margin-left: 8px;
+    }
+
+    .bubble-wrapper.sent .bubble-meta {
+      align-self: flex-end;
+      margin-right: 8px;
+      margin-left: 0;
+    }
+
+    .chat-bubble {
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .received .chat-bubble {
+      background: #1c1e2b;
+      color: var(--text-bright);
+      border-bottom-left-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .sent .chat-bubble {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .app-input-bar {
+      background: #11131c;
+      border-top: 1px solid #1f2235;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .app-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-bright);
+      outline: none;
+      font-size: 14px;
+    }
+
+    .app-send-btn {
+      color: var(--accent-blue);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s;
+    }
+
+    .app-send-btn:hover {
+      opacity: 0.8;
+    }
+
+    /* ----------------------------------------------------
+       SECTION 2: CHOOSE A ROOM & START CHATTING
+       ---------------------------------------------------- */
+    .lobby-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .lobby-card {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .lobby-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent-blue);
+      box-shadow: 0 10px 30px var(--accent-blue-glow);
+    }
+
+    .lobby-card.senior:hover {
+      border-color: var(--accent-gold);
+      box-shadow: 0 10px 30px var(--accent-gold-glow);
+    }
+
+    .lobby-card.gay:hover {
+      border-color: var(--accent-red);
+      box-shadow: 0 10px 30px var(--accent-red-glow);
+    }
+
+    .lobby-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .lobby-badge {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-bright);
+    }
+
+    .senior .lobby-badge {
+      color: var(--accent-gold);
+      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .gay .lobby-badge {
+      color: var(--accent-red);
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    .lobby-stats {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .lobby-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulseGlow 1.5s infinite;
+    }
+
+    .lobby-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .lobby-desc {
+      font-size: 14px;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .lobby-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 15px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-blue);
+    }
+
+    .senior .lobby-card-footer {
+      color: var(--accent-gold);
+    }
+
+    .gay .lobby-card-footer {
+      color: var(--accent-red);
+    }
+
+    /* ----------------------------------------------------
+       SECTION 3: PRIVATE MESSENGER & WEBCAMS
+       ---------------------------------------------------- */
+    .feature-panel-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .messenger-mockup {
+      background: #0f1017;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .mockup-cam-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      height: 180px;
+    }
+
+    .cam-feed {
+      background: #1b1c27;
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cam-label {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.6);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .cam-overlay {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 8px;
+      height: 8px;
+      background: var(--accent-red);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--accent-red);
+    }
+
+    /* Avatar placeholder */
+    .avatar-icon {
+      color: var(--text-muted);
+      opacity: 0.3;
+    }
+
+    .messenger-chat-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.02);
+      font-size: 13px;
+    }
+
+    .messenger-chat-line span {
+      font-weight: 700;
+      color: var(--accent-blue);
+    }
+
+    /* ----------------------------------------------------
+       SECTION 4: SAFETY, MODERATION & PSYCHOLOGY
+       ---------------------------------------------------- */
+    .double-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .safety-shield {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: var(--accent-red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .psy-brain {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      color: var(--accent-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .panel-heading {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .panel-text {
+      font-size: 15px;
+      color: var(--text-main);
+      margin-bottom: 20px;
+    }
+
+    /* ----------------------------------------------------
+       SECTION 5: BLOGS & ARTICLES
+       ---------------------------------------------------- */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 30px;
+    }
+
+    .blog-card {
+      display: flex;
+      flex-direction: column;
+      border-radius: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+      text-decoration: none;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .blog-img-box {
+      height: 200px;
+      background: #1c1e2b;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .blog-img-box svg {
+      opacity: 0.15;
+      transition: transform 0.5s;
+    }
+
+    .blog-card:hover .blog-img-box svg {
+      transform: scale(1.1);
+    }
+
+    .blog-tag {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(0,0,0,0.7);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .blog-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-grow: 1;
+    }
+
+    .blog-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1.4;
+    }
+
+    .blog-desc {
+      font-size: 14px;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .blog-footer {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: auto;
+    }
+
+    /* ----------------------------------------------------
+       SECTION 6: TRUST & FOOTER
+       ---------------------------------------------------- */
+    footer {
+      background: #040508;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      padding: 80px 24px 40px;
+    }
+
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand h4 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 280px;
+    }
+
+    .footer-col h5 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-bright);
+      margin: 0 0 20px 0;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-col a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: inline-block;
+      padding: 6px 0;
+    }
+
+    .footer-col a:hover {
+      color: var(--accent-blue);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Final CTA Banner */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 24px;
+      padding: 60px 40px;
+      text-align: center;
+      margin-bottom: 80px;
+      position: relative;
+    }
+
+    .cta-banner h3 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta-banner p {
+      font-size: 1.1rem;
+      color: var(--text-main);
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #b45309 100%);
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.45);
+    }
+
+    /* Animations */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .philosophy-grid, .feature-panel-grid, .double-panel {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+      .chat-preview-app {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .phil-header {
+        font-size: 1.8rem;
+      }
+    }
+
+    /* ----------------------------------------------------
+       RETRO & TERMINAL STYLE DETAILS
+       ---------------------------------------------------- */
+    .retro-scanlines {
+      position: relative;
+    }
+    .retro-scanlines::after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%);
+      z-index: 10;
+      background-size: 100% 4px;
+      pointer-events: none;
+      opacity: 0.45;
+      border-radius: inherit;
+    }
+    
+    .terminal-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 14px;
+      background-color: var(--accent-blue);
+      animation: terminalBlink 1s step-start infinite;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+    
+    @keyframes terminalBlink {
+      50% { opacity: 0; }
+    }
+    
+    .typing-dots::after {
+      content: '';
+      animation: typingEllipsis 1.5s steps(4, end) infinite;
+    }
+    
+    @keyframes typingEllipsis {
+      0%, 20% { content: ''; }
+      40% { content: '.'; }
+      60% { content: '..'; }
+      80%, 100% { content: '...'; }
+    }
+    
+    .retro-window-btn {
+      border: 1px solid #1f2235;
+      padding: 1px 6px;
+      background: #151824;
+      cursor: pointer;
+      color: var(--text-muted);
+      border-radius: 3px;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: bold;
+      font-family: monospace;
+      transition: background 0.2s, color 0.2s;
+    }
+    
+    .retro-window-btn:hover {
+      background: #1f2235;
+      color: var(--text-bright);
+    }
+    
+    .retro-window-btn.close:hover {
+      background: var(--accent-red);
+      color: #fff;
+      border-color: var(--accent-red);
+    }
+
+    .retro-send-btn {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+      font-family: monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .retro-send-btn:hover {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
+    .retro-send-btn:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====================================================
+       WELCOME INTRODUCTION (A REFUGE FROM ALGORITHM FEEDS)
+       ==================================================== -->
+  <section class="woc-section-container" style="padding-bottom: 20px;">
+    <div class="glass-card welcome-hero-card">
+      <h3 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 16px; text-align: center;">Welcome to World of Chat</h3>
+      <p style="font-size: 1.15rem; line-height: 1.8; text-align: center; max-width: 900px; margin: 0 auto; color: var(--text-main);">
+        Text messaging is too slow. Video calls are too awkward. We build real-time communication tools for the United Kingdom. There are no algorithms here, no profile grids, and no social media feeds chasing you around. Talk in the public lobbies or move into private, one-to-one messenger windows when the moment feels right.
+      </p>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       SECTION 1: PHILOSOPHY & WHY WE ARE DIFFERENT
+       ==================================================== -->
+  <section class="woc-section-container">
+    <div class="philosophy-grid">
+      <div>
+        <h3 class="phil-header">Our Community:<br>Why We Are Different</h3>
+        <p class="phil-desc">Most chat sites fall into two categories: corporate platforms selling data or sketchy adult hubs filled with bots. World of Chat is different. We are not a sex site. If you spam links or send unsolicited adult messages, you can expect to be removed.</p>
+        <p class="phil-desc">We built this platform because we miss the simple connection of MSN Chat. We have been online for over twenty years, keeping the lobbies free from corporate influence. App marketers design social platforms to maximize engagement loops. We build rooms because we like talking. There is no social media pressure here. You do not have to build a brand. You just type. We believe that text chat is a valuable form of connection, not a product to be monetized.</p>
+      </div>
+      
+      <!-- MSN Style Mock App UI -->
+      <div class="chat-preview-app retro-scanlines" style="border: 2px solid #1f2235; border-style: double;">
+        <div class="app-header" style="border-bottom: 1px solid #1f2235;">
+          <div class="app-title-group">
+            <div class="online-indicator"></div>
+            <div>
+              <div class="app-title" style="font-family: monospace; font-size: 13px; font-weight: bold;">#Main-Lobby</div>
+              <div class="app-subtitle" style="font-family: monospace; font-size: 11px;">online</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 4px;">
+            <button class="retro-window-btn" title="Minimize">_</button>
+            <button class="retro-window-btn" title="Maximize">🗖</button>
+            <button class="retro-window-btn close" title="Close">🗙</button>
+          </div>
+        </div>
+        
+        <!-- Retro Menu Bar -->
+        <div style="background: #11131c; border-bottom: 1px solid #1f2235; padding: 4px 20px; display: flex; gap: 16px; font-family: monospace; font-size: 11px; color: var(--text-muted); user-select: none;">
+          <span style="cursor: pointer;">Lobby</span>
+          <span style="cursor: pointer;">Edit</span>
+          <span style="cursor: pointer;">View</span>
+          <span style="cursor: pointer;">Actions</span>
+          <span style="cursor: pointer;">Help</span>
+        </div>
+
+        <div class="app-chat-area">
+          <!-- System node connected message -->
+          <div style="font-family: monospace; font-size: 11px; color: var(--accent-green); padding: 4px 8px; background: rgba(16, 185, 129, 0.05); border: 1px dashed rgba(16, 185, 129, 0.2); border-radius: 6px; margin-bottom: 4px;">
+            [SYS] Connected to lobby node #05 (latency: 14ms)
+          </div>
+
+          <div class="bubble-wrapper received">
+            <div class="bubble-meta" style="color: var(--accent-red); font-family: monospace; font-weight: 700;">Mod_K</div>
+            <div class="chat-bubble">Yes, welcome! No sign up needed. Feel free to join in.</div>
+          </div>
+          <div class="bubble-wrapper received">
+            <div class="bubble-meta" style="color: var(--accent-blue); font-family: monospace; font-weight: 700;">Dave88</div>
+            <div class="chat-bubble">Did anyone see the match?</div>
+          </div>
+          <div class="bubble-wrapper received">
+            <div class="bubble-meta" style="color: var(--accent-gold); font-family: monospace; font-weight: 700;">Sarah_J</div>
+            <div class="chat-bubble">Yeah was crazy! ⚽👍👍</div>
+          </div>
+          <div class="bubble-wrapper sent">
+            <div class="bubble-meta" style="color: var(--accent-purple); font-family: monospace; font-weight: 700;">You</div>
+            <div class="chat-bubble">Hello everyone, just popped in to check it out.</div>
+          </div>
+          <div class="typing-indicator-state" style="font-family: monospace; font-size: 11px; color: var(--text-muted); padding-left: 8px; display: flex; align-items: center; gap: 6px;">
+            <span class="lobby-dot" style="background-color: var(--text-muted); width: 4px; height: 4px; animation: pulseGlow 1s infinite;"></span>
+            <span>Sarah_J is typing<span class="typing-dots"></span></span>
+          </div>
+        </div>
+        <div class="app-input-bar" style="position: relative; z-index: 15;">
+          <span style="color: var(--accent-blue); font-family: monospace; font-weight: bold; font-size: 14px; margin-right: 4px; user-select: none;">&gt;</span>
+          <input type="text" class="app-input" style="font-family: monospace;" placeholder="Click to join the conversation..." readonly>
+          <span class="terminal-cursor"></span>
+          <button class="retro-send-btn">SEND</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       SECTION 2: WHAT WORLD OF CHAT IS
+       ==================================================== -->
+  <section class="woc-section-container" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <div class="philosophy-grid">
+      <div style="order: 2;">
+        <h3 class="phil-header">What World of Chat Is</h3>
+        <p class="phil-desc">We are a UK-focused chat community built on text, private messaging, and optional webcams. You do not need to download an app. Our site is fully mobile friendly, letting you chat from a phone, a tablet, or a desktop. You do not have to share your phone number. Just choose a username, enter the lobby, and talk.</p>
+        <p class="phil-desc">The design takes inspiration from classic late-nineties chat rooms, but the backend runs on modern code to keep the feed fast and lightweight. We store a small amount of account data to keep the system online. We work to keep it safe. We do not sell your data or monitor your personal conversations. Join the general lobby for group banter, or open private tabs to talk one-to-one.</p>
+      </div>
+      <div style="order: 1; display: flex; justify-content: center; align-items: center;">
+        <!-- Clean CSS Mockup of Mobile Chat Features -->
+        <div class="messenger-mockup retro-scanlines" style="width: 100%; max-width: 320px; border-radius: 20px; border: 2px solid #1f2235; border-style: double; padding: 16px;">
+          <!-- Mock Mobile Top Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2235; padding-bottom: 8px; margin-bottom: 12px; font-family: monospace; font-size: 11px; color: var(--text-muted); user-select: none;">
+            <span>WOC Mobile v1.4</span>
+            <span>📶 🔋 100%</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.05);">
+            <span style="font-family: monospace; font-weight: bold; font-size: 13px; color: var(--accent-blue);">&gt; #London-Lobby</span>
+            <span style="font-size: 10px; font-family: monospace; color: var(--accent-green); background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.3); padding: 1px 6px; border-radius: 4px; user-select: none;">ONLINE</span>
+          </div>
+          <div style="height: 120px; display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--text-main); font-family: monospace;">
+            <div style="padding: 8px 12px; background: #1c1e2b; border-radius: 8px; border-bottom-left-radius: 2px; border: 1px solid rgba(255,255,255,0.03);">
+              <strong style="color: var(--accent-gold);">LondonLad:</strong> Hello everyone 👋
+            </div>
+            <div style="padding: 8px 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid var(--accent-blue); color: var(--text-bright); border-radius: 8px; border-bottom-right-radius: 2px; align-self: flex-end;">
+              <strong style="color: var(--accent-purple);">You:</strong> Hi London, welcome!
+            </div>
+          </div>
+          <div style="background: #11131c; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03); padding: 6px 12px; font-size: 10px; color: var(--text-muted); font-family: monospace; text-align: center; margin-top: 8px; user-select: none;">
+            RUNNING VIA MOBILE WEB BROWSER
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       SECTION 3: OUR LOBBIES (ROOM LISTINGS)
+       ==================================================== -->
+  <section class="woc-section-container" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <h2 class="section-title">Choose a Room and <span>Start Chatting</span></h2>
+    
+    <div class="lobby-grid">
+      <!-- Room 1: Main Chat -->
+      <a href="https://www.worldofchat.co.uk/chat/" class="glass-card lobby-card">
+        <div>
+          <div class="lobby-card-header">
+            <span class="lobby-badge">General</span>
+            <div class="lobby-stats">
+              <span class="lobby-dot"></span> Online
+            </div>
+          </div>
+          <h4 class="lobby-title">Main UK Chat</h4>
+          <p class="lobby-desc">The central hub. A place for general banter, news, and complaining about train delays. Talk about anything from your morning tea to football.</p>
+        </div>
+        <div class="lobby-card-footer">
+          <span>Enter Lobbies &rarr;</span>
+        </div>
+      </a>
+      
+      <!-- Room 2: Senior Chat -->
+      <a href="https://www.worldofchat.co.uk/senior-chat-rooms/" class="glass-card lobby-card senior">
+        <div>
+          <div class="lobby-card-header">
+            <span class="lobby-badge">Over-50s</span>
+            <div class="lobby-stats">
+              <span class="lobby-dot"></span> Online
+            </div>
+          </div>
+          <h4 class="lobby-title">Senior Chat Rooms</h4>
+          <p class="lobby-desc">A quieter lounge designed for older chatters who want civil conversation and a relaxed pace. Share stories, discuss hobbies, and enjoy friendly company.</p>
+        </div>
+        <div class="lobby-card-footer">
+          <span>Enter Lobbies &rarr;</span>
+        </div>
+      </a>
+      
+      <!-- Room 3: Gay Chat -->
+      <a href="https://www.worldofchat.co.uk/gay-chat-rooms/" class="glass-card lobby-card gay">
+        <div>
+          <div class="lobby-card-header">
+            <span class="lobby-badge">LGBTQ+</span>
+            <div class="lobby-stats">
+              <span class="lobby-dot"></span> Online
+            </div>
+          </div>
+          <h4 class="lobby-title">Gay Chat Rooms</h4>
+          <p class="lobby-desc">A friendlier, moderated room for the LGBTQ+ community to connect and talk. This room has a long history of providing supportive, open conversation.</p>
+        </div>
+        <div class="lobby-card-footer">
+          <span>Enter Lobbies &rarr;</span>
+        </div>
+      </a>
+      
+      <!-- Room 4: Random Chat -->
+      <a href="https://www.worldofchat.co.uk/random-stranger-chat/" class="glass-card lobby-card">
+        <div>
+          <div class="lobby-card-header">
+            <span class="lobby-badge">Strangers</span>
+            <div class="lobby-stats">
+              <span class="lobby-dot"></span> Online
+            </div>
+          </div>
+          <h4 class="lobby-title">Random Chat</h4>
+          <p class="lobby-desc">For spontaneous encounters. Meet people from different backgrounds without a set topic. Talk to a stranger without any expectations.</p>
+        </div>
+        <div class="lobby-card-footer">
+          <span>Enter Lobbies &rarr;</span>
+        </div>
+      </a>
+      
+      <!-- Room 5: Regional Rooms -->
+      <div class="glass-card lobby-card">
+        <div>
+          <div class="lobby-card-header">
+            <span class="lobby-badge">Local Lobbies</span>
+            <div class="lobby-stats">
+              <span class="lobby-dot"></span> Online
+            </div>
+          </div>
+          <h4 class="lobby-title">Regional Rooms</h4>
+          <p class="lobby-desc">Lobbies dedicated to specific UK cities and counties. Find people in London, Scotland, Wales, or Yorkshire. Connect with your neighbours.</p>
+        </div>
+        <div class="lobby-card-footer" style="color:var(--text-muted);">
+          <span>Choose Region on Join</span>
+        </div>
+      </div>
+      
+      <!-- Room 6: Forums -->
+      <a href="https://www.worldofchat.co.uk/forums/" class="glass-card lobby-card">
+        <div>
+          <div class="lobby-card-header">
+            <span class="lobby-badge">Message Board</span>
+            <div class="lobby-stats" style="color:var(--text-muted)">
+              Discussions
+            </div>
+          </div>
+          <h4 class="lobby-title">Community Forums</h4>
+          <p class="lobby-desc">Share longer posts, start discussions, and keep in touch with regulars between live chat sessions. Forums are perfect for deeper topics.</p>
+        </div>
+        <div class="lobby-card-footer">
+          <span>View Boards &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       SECTION 4: PRIVATE MESSENGER & WEBCAMS
+       ==================================================== -->
+  <section class="woc-section-container" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <div class="feature-panel-grid">
+      <!-- Left side: webcam mockup -->
+      <div class="messenger-mockup retro-scanlines" style="border: 2px solid #1f2235; border-style: double; padding: 16px; border-radius: 20px;">
+        <!-- MSN-Style Window Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2235; padding-bottom: 8px; margin-bottom: 12px; user-select: none;">
+          <span style="font-family: monospace; font-size: 13px; font-weight: bold; color: var(--text-bright);">PM: Sarah_J (Online)</span>
+          <div style="display: flex; gap: 4px; font-family: monospace;">
+            <button class="retro-window-btn" title="Minimize">_</button>
+            <button class="retro-window-btn" title="Maximize">🗖</button>
+            <button class="retro-window-btn close" title="Close">🗙</button>
+          </div>
+        </div>
+        
+        <!-- Webcam feeds -->
+        <div class="mockup-cam-grid" style="margin-bottom: 12px;">
+          <div class="cam-feed">
+            <div class="cam-label">Sarah_J (Video)</div>
+            <div class="cam-overlay"></div>
+            <!-- Monospace Emoticon Camera placeholder -->
+            <div style="font-family: monospace; font-size: 28px; color: var(--text-muted); opacity: 0.5; user-select: none;">[:-)]</div>
+          </div>
+          <div class="cam-feed" style="background:#13151f;">
+            <div class="cam-label">You (Local Camera)</div>
+            <div style="font-family: monospace; font-size: 28px; color: var(--text-muted); opacity: 0.25; user-select: none;">[o_o]</div>
+          </div>
+        </div>
+        
+        <!-- Monospace Chat Lines -->
+        <div class="messenger-chat-line" style="font-family: monospace; border: 1px solid rgba(255,255,255,0.03);">
+          <span style="color: var(--accent-gold);">Sarah_J:</span> Let's move to private chat so we don't clog the main lobby.
+        </div>
+        <div class="messenger-chat-line" style="font-family: monospace; background:rgba(59,130,246,0.05); border-color: rgba(59,130,246,0.1)">
+          <span style="color: var(--accent-purple);">You:</span> Sounds good. Opened a private messenger tab.
+        </div>
+      </div>
+      
+      <!-- Right side: copy -->
+      <div>
+        <h3 class="phil-header">Private Messaging &amp;<br>Optional Webcams</h3>
+        <p class="phil-desc">Lobbies are the starting point. They let you scan the room and get a feel for the conversation. Once you connect with someone, you can invite them to a private chat.</p>
+        <p class="phil-desc">Our custom messenger lets you carry on the conversation one-to-one in a private tab. If both of you agree, you can turn on webcams. The webcam feature is completely optional. You choose when to share your video. You can close the stream instantly if you want to go back to text. Private chats are designed for one-to-one conversation. If a user reports abuse, we can review the issue and take action. This gives you a space for personal dialogue while keeping the public rooms focused on group conversation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       SECTION 5: SAFETY, MODERATION & CULTURE
+       ==================================================== -->
+  <section class="woc-section-container" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <div class="double-panel">
+      <!-- Safety Panel -->
+      <div class="glass-card">
+        <div class="safety-shield">
+          <img src="images/safety.jpg" alt="Safety Logo" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+        </div>
+        <h4 class="panel-heading">Safety &amp; Moderation</h4>
+        <p class="panel-text">We do our best to keep this site safe, clean, and friendly. It is an adults-only space. We expect sensible boundaries. Volunteer moderators monitor the public lobbies to handle trolls and spammers. Some of them treat their unpaid roles with the gravity of a high-court judge. They keep the room readable.</p>
+        <p class="panel-text">If someone bothers you, click report. Block them instantly. You control who can message you. We do not tolerate harassment, hate speech, or automated bot scripts. Our rules are simple: be decent, respect the room topic, and remember that there is a real person behind the username.</p>
+      </div>
+      
+      <!-- Online Culture Panel -->
+      <div class="glass-card">
+        <div class="psy-brain">
+          <img src="images/psychology.jpg" alt="Psychology Logo" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+        </div>
+        <h4 class="panel-heading">Online Culture &amp; Psychology</h4>
+        <p class="panel-text">We study online communication as well as hosting it. Our website features a deep library of articles exploring the psychology, history, and behavior of online spaces.</p>
+        <p class="panel-text">Read our analysis on why anonymity lowers social barriers. Learn why being ignored online hurts. Review the history of the early chat lobbies that shaped the modern web. We examine how communities form, how moderation styles impact user behavior, and the psychology behind chat room addiction. We provide practical safety guides to help you protect your digital identity and understand the boundaries of online friendships.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       SECTION 6: BLOGS & ARTICLES
+       ==================================================== -->
+  <section class="woc-section-container" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <h2 class="section-title">Blogs &amp; Stories <span>You'll Actually Want to Read</span></h2>
+    
+    <div class="blog-grid">
+      <!-- Article 1 -->
+      <a href="https://www.worldofchat.co.uk/chatroom-addiction/" class="blog-card">
+        <div class="blog-img-box">
+          <span class="blog-tag">Psychology</span>
+          <img src="images/blog-addiction.jpg" alt="Chat Room Addiction" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="blog-content">
+          <h4 class="blog-title">Chat Room Addiction: Understanding the Dopamine Scroll</h4>
+          <p class="blog-desc">Why do we keep logging in to lobbies that ignore us? An audit of digital routine and validation loops.</p>
+          <span class="blog-footer">5 min read &middot; By WOC Research</span>
+        </div>
+      </a>
+      
+      <!-- Article 2 -->
+      <a href="https://www.worldofchat.co.uk/being-ignored-online-hurts/" class="blog-card">
+        <div class="blog-img-box">
+          <span class="blog-tag">Social Science</span>
+          <img src="images/blog-ignored.jpg" alt="Being Ignored" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="blog-content">
+          <h4 class="blog-title">Why Being Ignored Online Hurts (And How to Handle It)</h4>
+          <p class="blog-desc">The psychology of the ignored text bubble. How text-only media registers failure in our pain receptors.</p>
+          <span class="blog-footer">4 min read &middot; By WOC Research</span>
+        </div>
+      </a>
+      
+      <!-- Article 3 -->
+      <a href="https://www.worldofchat.co.uk/chat-room-safety/" class="blog-card">
+        <div class="blog-img-box">
+          <span class="blog-tag">Safety Guide</span>
+          <img src="images/blog-safety.jpg" alt="Safety Guide" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="blog-content">
+          <h4 class="blog-title">The Complete Safety Protocol for Anonymous Chatting</h4>
+          <p class="blog-desc">A practical guide to keeping your identity secure, spotting bad actors, and setting sensible digital boundaries.</p>
+          <span class="blog-footer">6 min read &middot; By Safety Board</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       FINAL CTA BANNER
+       ==================================================== -->
+  <section class="woc-section-container">
+    <div class="cta-banner">
+      <h3>Stop Scrolling.</h3>
+      <p>Enter the lobbies, pick your text color, and join the conversation. No app download, no social feed, no stress.</p>
+      <a href="https://www.worldofchat.co.uk/chat/" class="cta-button">Choose a Room &amp; Start Chatting</a>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       FOOTER & TRUST DETAILS
+       ==================================================== -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h4>World of Chat</h4>
+        <p>Providing independent, text-focused online communication lobbies since 2005. Made in the United Kingdom.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Lobbies</h5>
+        <ul>
+          <li><a href="https://www.worldofchat.co.uk/chat/">Main UK Chat</a></li>
+          <li><a href="https://www.worldofchat.co.uk/senior-chat-rooms/">Senior Chat Rooms</a></li>
+          <li><a href="https://www.worldofchat.co.uk/gay-chat-rooms/">Gay Chat Rooms</a></li>
+          <li><a href="https://www.worldofchat.co.uk/random-stranger-chat/">Random Chat</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <ul>
+          <li><a href="https://www.worldofchat.co.uk/forums/">Message Forums</a></li>
+          <li><a href="https://www.worldofchat.co.uk/chat-room-safety/">Safety Guidelines</a></li>
+          <li><a href="https://www.worldofchat.co.uk/about-woc/">About Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Support &amp; Trust</h5>
+        <ul>
+          <li><a href="https://www.worldofchat.co.uk/faq/">FAQ</a></li>
+          <li><a href="https://www.worldofchat.co.uk/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="https://www.worldofchat.co.uk/embed-our-chat-room/">Embed Our Chat</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <span>&copy; 2026 World of Chat. All rights reserved.</span>
+      <span>Over Two Decades Online</span>
+    </div>
+  </footer>
+
+</body>
+</html>

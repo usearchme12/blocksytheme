@@ -1,0 +1,201 @@
+/* =======================================================================
+   WOC CUSTOM HERO CSS (Paste into WPCode > CSS Snippet)
+   ======================================================================= */
+
+#woc-custom-hero {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://wocchat.com/wp-content/uploads/2026/05/home-hero-section-image.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.woc-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 15, 30, 0.5); /* Darkens the neon background slightly so text pops */
+  z-index: 1;
+}
+
+.woc-hero-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 20px;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+/* =======================================================================
+   LEFT SIDE: GLASSMORPHIC TEXT BOX
+   ======================================================================= */
+.woc-hero-left {
+  flex: 1.3;
+}
+
+.woc-glass-box {
+  background: rgba(10, 15, 30, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.woc-tag {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.woc-h1 {
+  font-size: 48px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0 0 16px 0;
+  padding: 0;
+}
+
+.woc-p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 0 0 36px 0;
+  max-width: 95%;
+}
+
+/* BUTTON GRID */
+#woc-hero-blocks * { box-sizing: border-box; margin: 0; padding: 0; }
+#woc-hero-blocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.woc-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 16px 20px;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.woc-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.woc-block:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+.woc-block:active { transform: translateY(0); }
+
+.woc-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.woc-icon.blue { background: rgba(59, 130, 246, 0.2); }
+.woc-icon.yellow { background: rgba(251, 191, 36, 0.2); }
+.woc-icon.green { background: rgba(34, 197, 94, 0.2); }
+.woc-icon.pink { background: rgba(236, 72, 153, 0.2); }
+
+.woc-title { font-size: 16px; font-weight: 700; color: #ffffff; display: block; line-height: 1.2; }
+.woc-sub { font-size: 12px; color: rgba(255, 255, 255, 0.55); text-transform: uppercase; letter-spacing: 0.6px; display: block; margin-top: 4px; }
+.woc-arrow { margin-left: auto; color: rgba(255, 255, 255, 0.35); font-size: 18px; transition: transform 0.2s, color 0.2s; }
+.woc-block:hover .woc-arrow { transform: translateX(4px); color: rgba(255, 255, 255, 0.7); }
+
+.woc-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(0);
+  animation: woc-ripple-anim 0.5s linear;
+  pointer-events: none;
+}
+@keyframes woc-ripple-anim { to { transform: scale(4); opacity: 0; } }
+
+
+/* =======================================================================
+   RIGHT SIDE: 3D PHONE MOCKUP
+   ======================================================================= */
+.woc-hero-right {
+  flex: 0.8;
+  display: flex;
+  justify-content: center;
+  perspective: 1200px; /* Activates 3D space */
+}
+
+.woc-phone-3d {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  /* PERFECT 3D TILT */
+  transform: rotateY(-18deg) rotateX(5deg);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* DROP SHADOW TRACING THE ROUNDED CORNERS */
+  filter: drop-shadow(-10px 20px 30px rgba(0, 0, 0, 0.7));
+}
+
+.woc-phone-3d:hover {
+  transform: rotateY(0deg) rotateX(0deg) scale(1.05);
+}
+
+.woc-app-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* =======================================================================
+   MOBILE RESPONSIVENESS
+   ======================================================================= */
+@media (max-width: 992px) {
+  .woc-hero-content {
+    flex-direction: column;
+    padding: 60px 20px;
+  }
+  .woc-phone-3d {
+    transform: rotateY(0deg) rotateX(0deg); /* Disable 3D tilt on tablets so it fits */
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .woc-h1 { font-size: 32px; }
+  .woc-glass-box { padding: 24px; }
+  #woc-hero-blocks { grid-template-columns: 1fr; gap: 12px; }
+  .woc-block { padding: 14px 16px; }
+}

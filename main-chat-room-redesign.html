@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World of Chat | Free Online Chat Rooms</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;800&family=Inter:wght@400;600&display=swap');
+
+        body {
+            background: #0a0a0c;
+            color: #f4f4f6;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        #woc-redesign-container {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Branding and Header */
+        .woc-header { text-align: center; margin-bottom: 2rem; }
+        .woc-header h1 { 
+            font-family: 'Outfit', sans-serif; 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            margin-bottom: 10px; 
+            color: #ffffff; 
+        }
+        .woc-intro-text { color: #94a3b8; font-size: 1.1rem; line-height: 1.6; max-width: 900px; margin: 0 auto 2rem; }
+
+        /* The Chat Frame */
+        .woc-frame-wrapper {
+            background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px;
+            overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); margin-bottom: 3rem;
+        }
+        
+        .woc-iframe { width: 100%; height: 800px; border: none; display: block; overflow: hidden; }
+        
+        /* Seamless Mobile Fix */
+        @media (max-width: 768px) {
+            .woc-iframe { height: 1000px; } 
+        }
+        
+        /* Branded Strip Under Chat */
+        .woc-branded-strip { padding: 15px; background: #050505; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 0.9rem; }
+        .woc-branded-strip a, .woc-branded-strip button { 
+            color: #3b82f6; 
+            text-decoration: none; 
+            font-weight: 600; 
+            margin: 0 10px; 
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .woc-branded-strip a:hover, .woc-branded-strip button:hover { text-decoration: underline; }
+
+        /* Content Blocks */
+        .woc-info-section { 
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+            padding: 30px; border-radius: 20px; margin-bottom: 3rem; line-height: 1.8;
+            color: #94a3b8; font-size: 1.05rem;
+        }
+        .woc-info-section h3 { font-family: 'Outfit', sans-serif; color: #fff; margin-bottom: 15px; display: inline-block; font-size: 1.5rem; border-bottom: 2px solid #3b82f6;}
+        
+        /* Responsive 14-Room Grid */
+        .woc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .woc-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px; padding: 20px; text-decoration: none; color: #fff; transition: 0.3s;
+        }
+        .woc-card:hover { border-color: #3b82f6; transform: translateY(-5px); background: rgba(255,255,255,0.06); }
+        .woc-card-title { display: block; font-family: 'Outfit', sans-serif; font-weight: 800; color: #3b82f6; margin-bottom: 5px; }
+
+        /* Modal / Toast Animations */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); display: none; z-index: 10000;
+            align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content {
+            background: #121214; border: 1px solid rgba(255,255,255,0.1); border-radius: 28px;
+            padding: 30px; width: 90%; max-width: 700px; position: relative;
+            transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: #666; font-size: 2rem; cursor: pointer; }
+        .modal-tabs { display: flex; gap: 10px; background: rgba(255,255,255,0.03); padding: 5px; border-radius: 12px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; background: transparent; border: none; color: #94a3b8; border-radius: 10px; cursor: pointer; font-weight: 600; }
+        .tab-btn.active { background: #3b82f6; color: #fff; }
+        .code-area { background: #000; border-radius: 12px; padding: 20px; position: relative; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+        .code-display { font-family: monospace; font-size: 0.85rem; color: #10b981; white-space: pre-wrap; word-break: break-all; min-height: 100px; overflow-y: auto; }
+        .copy-btn { position: absolute; top: 15px; right: 15px; background: #3b82f6; color: #fff; border: none; padding: 5px 15px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        #copy-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 12px 30px; border-radius: 50px; font-weight: 600; transition: transform 0.3s; z-index: 10001; box-shadow: 0 10px 30px rgba(16,185,129,0.4); }
+        #copy-toast.visible { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+<div id="woc-redesign-container">
+    <div class="woc-header">
+        <h1>Main embedded chat room page for World of Chat.</h1>
+        <div class="woc-intro-text">
+            If you are just looking for girls to chat to chat to use this link, if you like <a href="http://www.redlightcenter.com/?trq=105254" target="_blank" style="color:#3b82f6;">3d Chat fun try here.</a>
+        </div>
+    </div>
+
+    <!-- Chat Hub -->
+    <div class="woc-frame-wrapper">
+        <iframe class="woc-iframe" src="https://www.worldofchat.co.uk/chat/" scrolling="no"></iframe>
+        <div class="woc-branded-strip">
+            <span style="color: #666;">Sponsored by</span> 
+            <a href="https://www.worldofchat.co.uk" target="_blank">World of Chat</a> | 
+            <a href="https://www.worldofchat.co.uk/chat/" target="_blank">Full Screen</a> |
+            <button onclick="openEmbedModal()">Get Embed Code</button>
+        </div>
+    </div>
+
+    <!-- SEO / Safety Text -->
+    <div class="woc-info-section">
+        <p style="margin-bottom: 15px;">This is the embedded <a href="https://www.worldofchat.co.uk/" style="color:#3b82f6;">chat page for World of Chat</a>, if you want the chat to fill your phone screen or desktop screen click the full screen button above and close this page, it will give you access to the full chat page and will fix any viewing issues of the chat room.</p>
+        <p style="margin-bottom: 15px;">Please be aware that chat rooms are full of new people, some of which could be trying to take advantage of you and get personal information so please <a href="https://www.worldofchat.co.uk/chatroom-addiction/" style="color:#3b82f6;">stay safe online</a>.</p>
+        <p>You can register for the chat by using the register button but you can also login to the chat as a guest.</p>
+    </div>
+
+    <!-- Niche Rooms Grid -->
+    <h2 style="text-align:center; font-family:'Outfit',sans-serif; font-size: 2rem; margin-bottom: 2rem; color: #ffffff;">Explore World of Chat</h2>
+    <div class="woc-grid">
+        <a href="https://www.worldofchat.co.uk/mobile-chat-rooms/" class="woc-card"><span class="woc-card-title">📱 Mobile Users</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Chat optimized for phones and touchscreens.</p></a>
+        <a href="https://www.worldofchat.co.uk/pakistani-asian-chat-rooms/" class="woc-card"><span class="woc-card-title">🌏 Pakistani & Asian</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Culturally rich connections and deep talk.</p></a>
+        <a href="https://www.worldofchat.co.uk/senior-chat-rooms/" class="woc-card"><span class="woc-card-title">☕ Silver Surfers</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Friendly talk for the over-50s community.</p></a>
+        <a href="https://www.worldofchat.co.uk/webcam-chat-rooms/" class="woc-card"><span class="woc-card-title">🎥 Webcam Rooms</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">High-quality face-to-face video interaction.</p></a>
+        <a href="https://www.worldofchat.co.uk/english-football-chatrooms/" class="woc-card"><span class="woc-card-title">⚽ Football Chat</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Discuss results, transfers, and tactics live.</p></a>
+        <a href="https://www.worldofchat.co.uk/gay-chat-rooms/" class="woc-card"><span class="woc-card-title">🌈 LGBT Community</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Safe space for Gay & Queer conversation.</p></a>
+        <a href="https://www.worldofchat.co.uk/university-student-chat-rooms/" class="woc-card"><span class="woc-card-title">🎓 Student Hub</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">University and college life discussions.</p></a>
+        <a href="https://www.worldofchat.co.uk/random-stranger-chat/" class="woc-card"><span class="woc-card-title">🎲 Random Chat</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">The classic icebreaker room for everyone.</p></a>
+        <a href="https://www.worldofchat.co.uk/depression-and-anxiety-chat-rooms/" class="woc-card"><span class="woc-card-title">🧠 Mental Health</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Sharing and support for anxiety and depression.</p></a>
+        <a href="https://www.worldofchat.co.uk/dementia-chat-rooms/" class="woc-card"><span class="woc-card-title">🤝 Memory Care</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Specialized room for Dementia support.</p></a>
+        <a href="https://www.worldofchat.co.uk/android-chat-rooms/" class="woc-card"><span class="woc-card-title">🏁 Android Players</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Meet players and gamers on Android devices.</p></a>
+        <a href="https://www.worldofchat.co.uk/english-chat-rooms/" class="woc-card"><span class="woc-card-title">📓 Learn English</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Practice with native speakers in real-time.</p></a>
+        <a href="https://www.worldofchat.co.uk/black-chat-rooms/" class="woc-card"><span class="woc-card-title">👊 Black Chat</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Vibrant community space and connections.</p></a>
+        <a href="https://www.worldofchat.co.uk/ipad-chat-rooms/" class="woc-card"><span class="woc-card-title">🍎 iPad Chat Rooms</span><p style="font-size:0.85rem;color:#94a3b8;margin:0;">Specialized room for iPad and tablet users.</p></a>
+    </div>
+
+    <!-- Footer Links -->
+    <div class="woc-info-section" style="columns: 2; column-gap: 40px;">
+        <h3>Site Resources</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li><a href="https://www.worldofchat.co.uk/about-woc/" style="color:#3b82f6;text-decoration:none;">About Us</a></li>
+            <li><a href="https://www.worldofchat.co.uk/privacy-policy/" style="color:#3b82f6;text-decoration:none;">Privacy Policy</a></li>
+            <li><a href="https://www.worldofchat.co.uk/faq/" style="color:#3b82f6;text-decoration:none;">FAQ</a></li>
+            <li><a href="https://www.worldofchat.co.uk/embed-our-chat-room/" style="color:#3b82f6;text-decoration:none;">Embed code</a></li>
+        </ul>
+        <br>
+        <h3>Community</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li><a href="https://www.worldofchat.co.uk/forums/" style="color:#3b82f6;text-decoration:none;">Forums</a></li>
+            <li><a href="https://www.worldofchat.co.uk/chat-room-safety/" style="color:#3b82f6;text-decoration:none;">Chat Safety</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- EMBED MODAL -->
+<div id="woc-embed-modal" class="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeEmbedModal()">&times;</button>
+        <h2 style="font-family:'Outfit',sans-serif;color:#fff;margin-bottom:5px;">Embed World of Chat</h2>
+        <p style="color:#666;margin-bottom:20px;font-size:0.9rem;">Increase your site engagement instantly.</p>
+        <div class="modal-tabs">
+            <button class="tab-btn active" onclick="switchTab('chat', this)">Chat Room</button>
+            <button class="tab-btn" onclick="switchTab('spinner', this)">Dating Spinner</button>
+            <button class="tab-btn" onclick="switchTab('icebreakers', this)">Icebreakers</button>
+        </div>
+        <div class="code-area">
+            <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+            <div id="code-box" class="code-display"></div>
+        </div>
+        <div style="font-size:0.8rem;color:#666;display:flex;justify-content:space-between;">
+            <span>Standard 800px-1000px height</span>
+            <a href="https://www.worldofchat.co.uk/embed-our-chat-room/" target="_blank" style="color:#3b82f6;text-decoration:none;">Full Guide</a>
+        </div>
+    </div>
+</div>
+<div id="copy-toast">Code copied to clipboard!</div>
+
+<script>
+    const embedCodes = {
+        chat: '<div style="text-align: center;">\n    <iframe src="https://www.worldofchat.co.uk/chat/" width="100%" height="800px" frameborder="0" scrolling="no" style="border: 0; display: block; width: 100%; height: 1000px; max-height: 1000px;"></iframe>\n    <p style="font-family:sans-serif;font-size:0.8rem;margin-top:10px;">Sponsored by <a href="https://www.worldofchat.co.uk" target="_blank" style="color: #3b82f6;">World of Chat</a> | <a href="https://www.worldofchat.co.uk/chat/" target="_blank" style="color: #3b82f6;">Full Screen</a> | <a href="https://www.worldofchat.co.uk/embed-our-chat-room/" target="_blank" style="color: #3b82f6;">Get Embed Code</a></p>\n</div>',
+        spinner: '<div style="text-align: center;">\n    <iframe src="https://www.worldofchat.co.uk/fun-chat-dating-spinner/" width="100%" height="800px" frameborder="0" scrolling="no" style="border: 0; display: block; width: 100%; height: 1000px;"></iframe>\n    <p style="font-family:sans-serif;font-size:0.8rem;margin-top:10px;">Chat Spinner Sponsored by <a href="https://www.worldofchat.co.uk" target="_blank" style="color: #3b82f6;">World of Chat</a> | <a href="https://www.worldofchat.co.uk/embed-our-chat-room/" target="_blank" style="color: #3b82f6;">Get Embed Code</a></p>\n</div>',
+        icebreakers: '<div style="text-align: center;">\n    <iframe src="https://www.worldofchat.co.uk/chat-room-icebreakers/" width="100%" height="800px" frameborder="0" scrolling="no" style="border: 0; display: block; width: 100%; height: 1000px;"></iframe>\n    <p style="font-family:sans-serif;font-size:0.8rem;margin-top:10px;">Chat Icebreakers Sponsored by <a href="https://www.worldofchat.co.uk" target="_blank" style="color: #3b82f6;">World of Chat</a> | <a href="https://www.worldofchat.co.uk/embed-our-chat-room/" target="_blank" style="color: #3b82f6;">Get Embed Code</a></p>\n</div>'
+    };
+    let currentTab = 'chat';
+    function openEmbedModal() {
+        document.body.style.overflow = 'hidden';
+        const modal = document.getElementById('woc-embed-modal');
+        modal.style.display = 'flex';
+        setTimeout(() => modal.classList.add('active'), 10);
+        updateCodeDisplay();
+    }
+    function closeEmbedModal() {
+        document.body.style.overflow = '';
+        const modal = document.getElementById('woc-embed-modal');
+        modal.classList.remove('active');
+        setTimeout(() => modal.style.display = 'none', 300);
+    }
+    function handleOverlayClick(e) { if (e.target.id === 'woc-embed-modal') closeEmbedModal(); }
+    function switchTab(type, btn) {
+        currentTab = type;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateCodeDisplay();
+    }
+    function updateCodeDisplay() { document.getElementById('code-box').textContent = embedCodes[currentTab]; }
+    function copyCode() {
+        navigator.clipboard.writeText(embedCodes[currentTab]).then(() => {
+            const toast = document.getElementById('copy-toast');
+            toast.classList.add('visible');
+            setTimeout(() => toast.classList.remove('visible'), 2000);
+        });
+    }
+</script>
+
+</body>
+</html>

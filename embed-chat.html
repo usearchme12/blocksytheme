@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embed Free UK Chat Room Widget | World of Chat</title>
+    <meta name="description" content="Add a free, fully-featured HTML chat room widget to your website. Engaged your community, increase visitor dwell time, and improve your SEO with our easy embed.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Noto+Serif:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2B6DF4;
+            --primary-hover: #1e52bc;
+            --bg-dark: #111111;
+            --surface: #1a1a1a;
+            --surface-glass: rgba(26, 26, 26, 0.7);
+            --text-light: #e5e2e1;
+            --text-muted: #8c90a0;
+            --font-display: 'Noto Serif', serif;
+            --font-body: 'Manrope', sans-serif;
+            --accent-green: #4CAF50;
+            --accent-amber: #f59e0b;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        /* --- Hero Section --- */
+        .hero {
+            background-color: var(--primary);
+            color: white;
+            padding: 4rem 2rem 8rem;
+            position: relative;
+        }
+        .hero-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 0.25rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+        .btn-primary {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+        }
+        .btn-secondary {
+            display: inline-block;
+            background: rgba(0,0,0,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-secondary:hover {
+            background: rgba(0,0,0,0.3);
+        }
+        .glass-mockup {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .mockup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .mock-msg {
+            background: rgba(0,0,0,0.3);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            width: fit-content;
+            font-size: 0.9rem;
+        }
+        .mock-msg.own {
+            background: white;
+            color: var(--primary);
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+        .hero-wave {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+        .hero-wave svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 60px;
+        }
+        .hero-wave .shape-fill {
+            fill: var(--bg-dark);
+        }
+        /* --- Final Strategic Starting Point Section --- */
+        .strategic-section {
+            padding: 5rem 0 2rem;
+        }
+        .strategic-section h2 {
+            font-size: 2.25rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+        .strategic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .strategic-card {
+            background: rgba(245, 158, 11, 0.03);
+            border: 1px solid rgba(245, 158, 11, 0.1);
+            padding: 2rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .strategic-card:hover {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+        .strategic-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--accent-amber);
+            font-family: var(--font-body);
+        }
+        .strategic-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* --- Benefits Grid --- */
+        .benefits-section {
+            padding: 5rem 0;
+        }
+        .benefits-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .benefit-card {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: left;
+            border-top: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+        .benefit-card:hover { transform: translateY(-5px); }
+        .benefit-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: white;
+            font-family: var(--font-body);
+        }
+        /* --- Sandbox / Code Generator --- */
+        .sandbox-section {
+            padding: 2rem 0 5rem;
+        }
+        .sandbox-container {
+            background: var(--surface-glass);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .sandbox-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .code-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        .tab-btn.active { color: white; }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+        .code-block {
+            background: #000;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: monospace;
+            color: #7ad0ff;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 2rem;
+            position: relative;
+            min-height: 150px;
+        }
+        .copy-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(43, 109, 244, 0.4);
+        }
+        .copy-btn:hover { background: var(--primary-hover); }
+
+        /* --- Installation & Info Grid --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 4rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .info-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        .step-list {
+            list-style: none;
+            counter-reset: my-counter;
+        }
+        .step-list li {
+            counter-increment: my-counter;
+            background: var(--surface);
+            margin-bottom: 1rem;
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 8px;
+            position: relative;
+            color: var(--text-muted);
+        }
+        .step-list li::before {
+            content: counter(my-counter);
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        @media (max-width: 990px) {
+            .hero-grid, .info-grid, .strategic-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <div class="badge">The World of Chat For Publishers</div>
+                <h1>Free UK Chat Rooms – Online Communication Platform</h1>
+                <p>A friendly UK-based chatting community. Engage your visitors by embedding our free HTML chat room widget directly onto your website. No database configuration, absolutely no moderation overhead.</p>
+                <div class="hero-actions">
+                    <a href="#code-section" class="btn-primary" onclick="window.scrollTo({top: document.getElementById('code-section').offsetTop, behavior: 'smooth'})">Copy Embed Code</a>
+                    <a href="https://www.worldofchat.co.uk/main-chat-room/" target="_blank" class="btn-secondary">View Live Chat</a>
+                </div>
+            </div>
+            
+            <div class="glass-mockup">
+                <div class="mockup-header">
+                    <span>Live UK Chatroom</span>
+                    <span style="font-size: 0.8rem; opacity: 0.8;">🟢 342 Online</span>
+                </div>
+                <div class="mock-msg">Hello from London! Anyone around?</div>
+                <div class="mock-msg">Yeah, I just joined via the new website widget.</div>
+                <div class="mock-msg own">Welcome to the community! So easy to use.</div>
+            </div>
+        </div>
+        
+        <div class="hero-wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,120.91,192.35,108.83,243.34,98.81,284.14,64.21,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- FINAL STRATEGIC SECTION (GRID) -->
+        <section class="strategic-section">
+            <h2>Why the World of Chat Network is Your Strategic Starting Point</h2>
+            <div class="strategic-grid">
+                <div class="strategic-card">
+                    <h3>Growing Together, Not Starting Alone</h3>
+                    <p>The biggest challenge for any webmaster is an empty chat room. Instead of starting with "dead air," your site joins an up-and-coming shared network. Every new site that embeds this widget adds to the user pool, helping everyone grow their traffic and "stickiness" collectively.</p>
+                </div>
+                
+                <div class="strategic-card">
+                    <h3>Why We Use a Shared Network</h3>
+                    <p>To be completely clear, this is a shared network service and not a private chat room with full administrative control. Providing a fully private chat solution for free is not feasible because it requires significant server resources, manual software installation, and constant technical oversight to maintain.</p>
+                </div>
+                
+                <div class="strategic-card">
+                    <h3>Risk-Free Proof of Concept</h3>
+                    <p>Use this embed as a 100% free starting point to see if your audience values live chat before you consider any private, high-cost alternative. If the chat proves successful for your traffic, you can eventually consider moving to your own private, paid setup.</p>
+                </div>
+                
+                <div class="strategic-card">
+                    <h3>Custom Rooms and Community Control</h3>
+                    <p>While any registered user can create their own temporary room, we can offer more for our serious partners. If you find your users are active, reach out—Jason can manually add a permanent room for your site and grant you moderator status to ensure your community is managed exactly as you require.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Grid -->
+        <section class="benefits-section">
+            <h2>Why Add Our Chatroom Plugin?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Simple Code Integration</h3>
+                    <p>No complex database setups. Just copy our HTML snippet, paste it into your CMS or HTML file, and the chat is instantly live.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Webcam & Audio Support</h3>
+                    <p>Our chat room supports instant, in-browser webcam functionality, fostering face-to-face connections safely.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Real-Time Infrastructure</h3>
+                    <p>Enjoy blazing-fast instant messaging built to handle thousands of concurrent users in public or private chats.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Rich Media Sharing</h3>
+                    <p>Users can send images, animated GIFs, and stream YouTube videos directly within the live chat streams.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Mobile Optimized</h3>
+                    <p>Whether your visitors are on desktop, tablet, or smartphone, our widget resizes beautifully without layout breaks.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Zero Server Costs</h3>
+                    <p>We handle all the heavy lifting, database hosting, and bandwidth, so you get all the engagement completely free.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sandbox Code Section -->
+        <section id="code-section" class="sandbox-section">
+            <div class="sandbox-container">
+                <div class="sandbox-header">
+                    <h2>Grab the Embed Code</h2>
+                    <p style="color:var(--text-muted);">Choose your preferred layout format and click copy.</p>
+                </div>
+                
+                <div class="code-tabs">
+                    <button id="default-tab" class="tab-btn active" onclick="switchCode('responsive', this)">Full View Widget code</button>
+                    <button class="tab-btn" onclick="switchCode('fixed', this)">Seamless Mobile code</button>
+                </div>
+                
+                <div id="code-content" class="code-block">Loading code snippets...</div>
+                <div style="text-align: center;">
+                    <button class="copy-btn" onclick="copySnippet()">Copy HTML Snippet to Clipboard</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-grid">
+            <div class="info-col">
+                <h3>Installation Guide</h3>
+                <h4 style="color:white; margin-bottom: 1rem;">For WordPress Sites:</h4>
+                <ul class="step-list">
+                    <li>Log into your WordPress Dashboard and navigate to <strong>Pages</strong> or <strong>Posts</strong>.</li>
+                    <li>Add a <strong>"Custom HTML" Block</strong>.</li>
+                    <li>Paste the iframe snippet directly into that HTML block and update your page.</li>
+                </ul>
+            </div>
+            <div class="info-col">
+                <h3>Contact & Help</h3>
+                <p style="color:var(--text-muted); margin-bottom:1.5rem;">Need help with the embed? Contact our webmaster team.</p>
+                <p>
+                    <strong style="color:white;">Contact Support:</strong> <a href="mailto:worldofchat@hotmail.co.uk" style="color:var(--primary); text-decoration:none;">worldofchat@hotmail.co.uk</a>.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const payloads = {
+            responsive: `<div style="text-align: center;">\n    <iframe src="https://www.worldofchat.co.uk/chat/" width="100%" height="100%" frameborder="0" scrolling="no" style="border: 0; display: block; width: 100vw; height: 100vh;"></iframe>\n    <p style="font-family:sans-serif;font-size:0.8rem;margin-top:10px;">\n        Sponsored by <a href="https://www.worldofchat.co.uk" target="_blank" style="color: #2B6DF4;">World of Chat</a> | \n        <a href="https://www.worldofchat.co.uk/chat/" target="_blank" style="color: #2B6DF4;">Full Screen</a> | \n        <a href="https://www.worldofchat.co.uk/embed-our-chat-room/" target="_blank" style="color: #2B6DF4;">Get Embed Code</a>\n    </p>\n</div>`,
+            fixed: `<div style="text-align: center;">\n    <iframe src="https://www.worldofchat.co.uk/chat/" width="100%" height="800px" frameborder="0" scrolling="no" style="border: 0; display: block; width: 100%; height: 1000px;"></iframe>\n    <p style="font-family:sans-serif;font-size:0.8rem;margin-top:10px;">\n        Sponsored by <a href="https://www.worldofchat.co.uk" target="_blank" style="color: #2B6DF4;">World of Chat</a> | \n        <a href="https://www.worldofchat.co.uk/chat/" target="_blank" style="color: #2B6DF4;">Full Screen</a> | \n        <a href="https://www.worldofchat.co.uk/embed-our-chat-room/" target="_blank" style="color: #2B6DF4;">Get Embed Code</a>\n    </p>\n</div>`
+        };
+
+        function switchCode(type, btnElement) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if (btnElement) btnElement.classList.add('active');
+            let rawCode = payloads[type];
+            let displayCode = rawCode.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            document.getElementById('code-content').innerHTML = displayCode;
+        }
+
+        function copySnippet() {
+            const contentBlock = document.getElementById('code-content');
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = contentBlock.innerText; 
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            const btn = document.querySelector('.copy-btn');
+            btn.innerText = 'Copied to Clipboard!';
+            setTimeout(() => { btn.innerText = 'Copy HTML Snippet to Clipboard'; }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            switchCode('responsive', document.getElementById('default-tab'));
+        });
+    </script>
+</body>
+</html>

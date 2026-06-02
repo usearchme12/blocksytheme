@@ -1,0 +1,143 @@
+<!-- WOC Hero Blocks - Paste into Gutenberg > Custom HTML -->
+<style>
+  #woc-hero-blocks *{box-sizing:border-box;margin:0;padding:0}
+  #woc-hero-blocks{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    max-width:520px;
+    margin:28px 0 0 0;
+    font-family:'Inter',sans-serif;
+  }
+  .woc-block{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:rgba(255,255,255,0.09);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:12px;
+    padding:14px 16px;
+    text-decoration:none;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:background 0.2s,border-color 0.2s,transform 0.15s;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+  }
+  .woc-block::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg,rgba(255,255,255,0.06) 0%,transparent 60%);
+    pointer-events:none;
+  }
+  .woc-block:hover{
+    background:rgba(255,255,255,0.15);
+    border-color:rgba(255,255,255,0.35);
+    transform:translateY(-2px);
+  }
+  .woc-block:active{transform:translateY(0)}
+  .woc-icon{
+    width:36px;height:36px;
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+    flex-shrink:0;
+  }
+  .woc-icon.blue{background:rgba(59,130,246,0.2);}
+  .woc-icon.yellow{background:rgba(251,191,36,0.2);}
+  .woc-icon.green{background:rgba(34,197,94,0.2);}
+  .woc-icon.pink{background:rgba(236,72,153,0.2);}
+  .woc-text{}
+  .woc-title{
+    font-size:14px;
+    font-weight:700;
+    color:#ffffff;
+    line-height:1.2;
+    display:block;
+  }
+  .woc-sub{
+    font-size:11px;
+    color:rgba(255,255,255,0.55);
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+    display:block;
+    margin-top:2px;
+  }
+  .woc-arrow{
+    margin-left:auto;
+    color:rgba(255,255,255,0.35);
+    font-size:14px;
+    flex-shrink:0;
+    transition:transform 0.2s,color 0.2s;
+  }
+  .woc-block:hover .woc-arrow{
+    transform:translateX(3px);
+    color:rgba(255,255,255,0.7);
+  }
+
+  /* Ripple */
+  .woc-ripple{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    transform:scale(0);
+    animation:woc-ripple-anim 0.5s linear;
+    pointer-events:none;
+  }
+  @keyframes woc-ripple-anim{
+    to{transform:scale(4);opacity:0}
+  }
+</style>
+
+<div id="woc-hero-blocks">
+  <a class="woc-block" href="https://www.worldofchat.co.uk/chat/" id="woc-btn-main">
+    <div class="woc-icon blue">💬</div>
+    <div class="woc-text">
+      <span class="woc-title">Enter Main Chat</span>
+      <span class="woc-sub">Main Lobby</span>
+    </div>
+    <span class="woc-arrow">›</span>
+  </a>
+  <a class="woc-block" href="https://www.worldofchat.co.uk/quick-chat/" id="woc-btn-quick">
+    <div class="woc-icon yellow">⚡</div>
+    <div class="woc-text">
+      <span class="woc-title">Quick Chat</span>
+      <span class="woc-sub">Instant Access</span>
+    </div>
+    <span class="woc-arrow">›</span>
+  </a>
+  <a class="woc-block" href="https://www.worldofchat.co.uk/forums/" id="woc-btn-forums">
+    <div class="woc-icon green">🗣️</div>
+    <div class="woc-text">
+      <span class="woc-title">Community Forums</span>
+      <span class="woc-sub">Discussions</span>
+    </div>
+    <span class="woc-arrow">›</span>
+  </a>
+  <a class="woc-block" href="https://www.worldofchat.co.uk/icebreakers/" id="woc-btn-ice">
+    <div class="woc-icon pink">🎯</div>
+    <div class="woc-text">
+      <span class="woc-title">Icebreakers</span>
+      <span class="woc-sub">Topic Starters</span>
+    </div>
+    <span class="woc-arrow">›</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.woc-block').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      var r=document.createElement('span');
+      r.className='woc-ripple';
+      var rect=btn.getBoundingClientRect();
+      var size=Math.max(rect.width,rect.height);
+      r.style.cssText='width:'+size+'px;height:'+size+'px;left:'+(e.clientX-rect.left-size/2)+'px;top:'+(e.clientY-rect.top-size/2)+'px';
+      btn.appendChild(r);
+      setTimeout(function(){r.remove()},600);
+    });
+  });
+})();
+</script>

@@ -1,0 +1,44 @@
+# World of Chat Layout & Styling Guidelines
+
+This file contains design system guidelines, styling tokens, and layout preferences for `wocchat.com`. All front-end changes, HTML/CSS cards, custom sections, or Gutenberg styling blocks must follow these rules.
+
+---
+
+## 1. WordPress Tab System Constraint
+* **Strict Code Separation:** The WordPress page builder interface has three separate editing tabs (HTML, CSS, JavaScript). 
+* **Rule:** **NEVER** combine HTML, CSS, or JS into a single code block output. Always deliver them as separate code snippets so they can be easily copy-pasted into their respective tabs.
+
+---
+
+## 2. Layout, Spacing & Container Constraints
+* **Container Width:** The computed container width of the site layout (used by `.ct-container`, `.gspb_row`, and header wrappers) is exactly **`1290px`** with `max-width: 1290px`. 
+  * All centered cards grid wrappers or custom section wrappers must align to this constraint (`max-width: 1290px; margin: 0 auto;`).
+* **Desktop Padding:** Use `padding: 20px 0` on desktop grid containers to align perfectly with the page edge.
+* **Mobile/Tablet Padding:** Scale to `padding: 20px 20px` to prevent card edges from touching screen borders on narrower viewports.
+* **Hero Spacing:** Outer wrapper padding `top: 250px` (desktop), `200px` (tablet), `150px` (mobile).
+* **Column Spacing:** Default row layouts should use `gutterGap: ["90px","50px",null,null]`.
+
+---
+
+## 3. Brand Styling & Color Tokens
+* **Accent Orange (Primary):** `var(--wp--preset--color--palette-color-2, var(--theme-palette-color-2, #E17335))` (used for brand tags, key accents, highlights).
+* **Deep Dark Card/Container Background:** `#000000d9` (used with rounded borders `25px` for hero text overlays).
+* **Grid Card Background (Dark Mode):** `rgba(18, 20, 29, 0.65)` with border `1px solid rgba(255, 255, 255, 0.08)` and border-radius `16px`.
+* **Hover State Shadows & Borders:**
+  * **Standard/Blue Cards:** Hover border `#3b82f6` with box shadow `0 10px 30px rgba(59, 130, 246, 0.15)`.
+  * **Senior/Gold Cards:** Hover border `#f59e0b` with box shadow `0 10px 30px rgba(245, 158, 11, 0.15)`.
+  * **Gay/Red Cards:** Hover border `#ef4444` with box shadow `0 10px 30px rgba(239, 68, 68, 0.15)`.
+
+---
+
+## 4. Theme & Color Mode Inversion (CRITICAL)
+* **Blocksy Theme Reversal:** The staging site maps color modes in **reverse** to standard CSS selector names:
+  * **Light Mode (White Backgrounds):** Activated when the theme toggler sets `[data-color-mode="dark"]` or `body.dark-mode`. Cards must render as **white/light** (`rgba(255, 255, 255, 0.9)` background, dark text `#12141d`).
+  * **Dark Mode (Dark Backgrounds):** Activated when the theme toggler sets `[data-color-mode="light"]` or `body.light-mode`. Cards must render as **dark/transparent** (`rgba(18, 20, 29, 0.65)` background, light text `#cbd5e1`).
+* **Rule:** Always apply this inverted mapping to CSS overrides so cards switch colors correctly.
+
+---
+
+## 5. Development Code Cleanliness & Theme Settings First
+* **Avoid Custom Code Snippets:** **NEVER** recommend or suggest adding arbitrary HTML link tags, preload headers, or custom scripts to the site's `<head>` or footer files. This keeps the codebase tidy and avoids cluttering.
+* **Prioritize Native Settings:** Always recommend solving performance or layout issues using native theme settings (Blocksy Customizer), Greenshift Block configurations, or standard block attributes first. Custom code snippets are strictly a last resort.
