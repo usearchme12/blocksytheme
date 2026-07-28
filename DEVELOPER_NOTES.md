@@ -2,6 +2,10 @@
 
 This file contains design system guidelines, styling tokens, and layout preferences for `wocchat.com`. All front-end changes, HTML/CSS cards, custom sections, or Gutenberg styling blocks must follow these rules.
 
+For the detailed GreenShift / Gutenberg block workflow, see:
+
+- `docs/greenshift-world-of-chat-workflow.md`
+
 ---
 
 ## 1. WordPress Tab System Constraint
